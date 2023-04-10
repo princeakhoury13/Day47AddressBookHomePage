@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Add User</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="add_user.css">
+</head>
+<body>
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-6">
+                <h3>Add a new user to the Address Book </h3>
+                <br>
+                <br>
+                
+				<form onsubmit="addUser(event)">
+					<label for="first-name-input">First Name:</label>
+					<input type="text" id="first-name-input" class="form-control" pattern=".{3,}" required title="Please enter a valid first name (at least 3 characters)" ><br>
+
+					<label for="last-name-input">Last Name:</label>
+					<input type="text" id="last-name-input" class="form-control" pattern=".{3,}" required title="Please enter a valid first name (at least 3 characters)"><br>
+
+					<label for="city-input">City:</label>
+					<input type="text" id="city-input" class="form-control" required><br>
+
+					<label for="state-input">State:</label>
+					<input type="text" id="state-input" class="form-control" required><br>
+
+					<label for="phone-input">Phone Number:</label>
+					<input type="text" id="phone-input" class="form-control" pattern="[0-9]*" required title="Please enter a valid number"><br>
+
+					<input type="submit" id="submit-button" value="Submit" class="btn btn-primary btn-block">
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		
+		class User {
+			constructor(firstName, lastName, city, state, phone) {
+				this.firstName = firstName;
+				this.lastName = lastName;
+				this.city = city;
+				this.state = state;
+				this.phone = phone;
+			}
+		}
+
+		
+		function addUser(event) {
+			event.preventDefault();
+
+			let firstName = document.querySelector('#first-name-input').value;
+			let lastName = document.querySelector('#last-name-input').value;
+			let city = document.querySelector('#city-input').value;
+			let state = document.querySelector('#state-input').value;
+			let phone = document.querySelector('#phone-input').value;
+
+			let user = new User(firstName, lastName, city, state, phone);
+
+			let users = JSON.parse(localStorage.getItem('users')) || [];
+			users.push(user);
+			localStorage.setItem('users', JSON.stringify(users));
+
+			window.location.href = 'home.html';
+		}
+	</script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

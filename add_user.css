@@ -1,0 +1,11 @@
+.container{
+    padding: 50px;
+}
+
+body{
+    background-image: url("bg4.jpg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+}

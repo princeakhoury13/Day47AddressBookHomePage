@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Home</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="home.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="text-center welcome-section">
+                <h1>Welcome to the Address Book Home Page</h1>
+                <p id="total-users"></p>
+                <button class="mx-auto btn btn-primary" onclick="location.href='add_user.html'">Add User</button>
+            </div>
+            
+            <table id="user-table" class="table">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Phone Number</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    
+                </tbody>
+            </table>
+        </div>
+    
+        <script>
+            
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+let tableBody = document.querySelector('#user-table tbody');
+users.forEach((user, index) => {
+    let row = tableBody.insertRow();
+    row.insertCell().textContent = user.firstName;
+    row.insertCell().textContent = user.lastName;
+    row.insertCell().textContent = user.city;
+    row.insertCell().textContent = user.state;
+    row.insertCell().textContent = user.phone;
+
+    
+    let deleteButton = document.createElement('button');
+    deleteButton.classList.add('btn', 'btn-danger', 'btn-sm');
+    deleteButton.textContent = 'Delete';
+    deleteButton.addEventListener('click', () => {
+        deleteUser(index);
+        tableBody.removeChild(row);
+    });
+    let deleteCell = row.insertCell();
+    deleteCell.appendChild(deleteButton);
+
+    let editButton = document.createElement('button');
+    editButton.classList.add('btn', 'btn-secondary', 'btn-sm');
+    editButton.textContent = 'Edit';
+    editButton.addEventListener('click', () => {
+        editUser(index);
+    });
+    let editCell = row.insertCell();
+    editCell.appendChild(editButton);
+});
+
+function editUser(index) {
+    let users = JSON.parse(localStorage.getItem('users')) || [];
+    let user = users[index];
+
+   
+    document.getElementById('first-name-input').value = user.firstName;
+    document.getElementById('last-name-input').value = user.lastName;
+    document.getElementById('city-input').value = user.city;
+    document.getElementById('state-input').value = user.state;
+    document.getElementById('phone-input').value = user.phone;
+
+    
+    let submitButton = document.getElementById('submit-button');
+    submitButton.textContent = 'Update';
+    submitButton.onclick = () => {
+        
+        user.firstName = document.getElementById('first-name-input').value;
+        user.lastName = document.getElementById('last-name-input').value;
+        user.city = document.getElementById('city-input').value;
+        user.state = document.getElementById('state-input').value;
+        user.phone = document.getElementById('phone-input').value;
+        localStorage.setItem('users', JSON.stringify(users));
+        location.reload();
+    };
+}
+
+          
+            let totalUsers = document.getElementById('total-users');
+            totalUsers.textContent = `Total users: ${users.length}`;
+        
+           
+            function deleteUser(index) {
+    let users = JSON.parse(localStorage.getItem('users')) || [];
+    users.splice(index, 1);
+    localStorage.setItem('users', JSON.stringify(users));
+
+    let tableBody = document.querySelector('#user-table tbody');
+    tableBody.innerHTML = '';
+
+    users.forEach(user => {
+        let row = tableBody.insertRow();
+        row.insertCell().textContent = user.firstName;
+        row.insertCell().textContent = user.lastName;
+        row.insertCell().textContent = user.city;
+        row.insertCell().textContent = user.state;
+        row.insertCell().textContent = user.phone;
+        row.insertCell().innerHTML = `<button class="btn btn-danger btn-sm" onclick="deleteUser(${users.indexOf(user)})">Delete</button>`;
+    });
+
+   
+
+
+
+    let totalUsers = document.getElementById('total-users');
+    totalUsers.textContent = `Total users: ${users.length}`;
+}
+
+
+
+
+        
+
+
+
+
+        </script>
+    
+      
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    </body>
+</html>
